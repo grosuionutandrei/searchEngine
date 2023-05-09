@@ -3,51 +3,73 @@ import { useEffect } from 'react';
 
 
 export const Trie =(props)=>{
+console.log(props.word);
+let init ='cat';
 
-useEffect(()=>{class Node {
-    constructor(){
-        this.childrens={};
-        this.isWord=false;
-    }
-}    
-class Trie{
-    constructor(){
+// start with the TrieNode
+const TrieNode = function (key) {
 
-        this.root=new Node();
-    }
-   insert(value){
-if(!value){
-    throw new Error('Value is undefined');
-}
-
-
-
-    let wordToProcess=value.toLowerCase().split('');
-    for(let elem of wordToProcess){
-       if(elem in this.root.childrens===false){
-         let node = new Node();
-          if(elem===wordToProcess[wordToProcess.length-1]){
-                node.isWord=true;
-          }
-          this.root.childrens[elem]=node;
-       } 
-    }
-
+    // the "key" value will be the character in sequence
+    this.key = key;
     
-   }
-   printRoot(){
-    console.log(this.root);
-   }
-}
+    // keep a reference to parent
+    this.parent = null;
+    
+    // have hash of children
+    this.children = {};
+    
+    // check to see if the node is at the end
+    this.end = false;
+    
+    this.getWord = function() {
+      let output = [];
+      let node = this;
+  
+      while (node !== null) {
+        output.unshift(node.key);
+        node = node.parent;
+      }
+  
+      return output.join('');
+    };
+  }
 
-let first =new Trie();
-try {
-    first.insert(props.value);
-} catch (error) {
-    console.log(error.message);
-}
-first.printRoot();
-},[props.word])
+/* create a Trie data structure */
+  const Trie = function(){
+    this.root=new TrieNode(null);
+   this.insert=function(value){
+ if(!value){
+     throw new Error('Value is undefined');
+ }
+ 
+ let node=this.root;
+ for(let item of value){
+   
+    if(!node.children[item]){
+       node.children[item]=new TrieNode(item);
+       node.children[item].parent=node;
+    }
+    node=node.children[item];
+    if(item===value[value.length-1]){
+      node.end=true;
+    }
+   
+   
+     
+     
+     
+ }
+    }
+ }
+
+useEffect(()=>{
+    let tri = new Trie();
+    tri.insert(props.word); 
+    tri.insert('car');
+    tri.insert('care');
+    console.log(tri.root); 
+},[props.word]);
+
 
 
 

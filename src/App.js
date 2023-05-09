@@ -4,7 +4,7 @@ import { Trie } from './trie/trie';
 
 function App() {
   return (
-<Trie word={["cat","car","done","dare","try","trie"]}></Trie>
+<Trie word={"cat"}></Trie>
   );
 }
 
