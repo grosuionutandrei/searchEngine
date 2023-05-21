@@ -4,8 +4,9 @@ import { Trie } from './trie/trie';
 
 function App() {
   return (
-<Trie word={"cat"}></Trie>
+<Trie word={"cat"} search={'car'}></Trie>
   );
 }
 
 export default App;
+
